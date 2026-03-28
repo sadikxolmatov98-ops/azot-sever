@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Азот Бар — Доставка газовых баллонов</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0D47A1;
+      --primary-light: #1565C0;
+      --accent: #FF6D00;
+      --accent-light: #FF9100;
+      --dark: #0A1628;
+      --dark-card: #111E36;
+      --surface: #152238;
+      --text: #E8EDF5;
+      --text-muted: #8FA3C0;
+      --glass: rgba(13, 71, 161, 0.12);
+      --gradient-hero: linear-gradient(135deg, #0A1628 0%, #0D2B5E 50%, #0A1628 100%);
+      --gradient-accent: linear-gradient(135deg, #FF6D00, #FF9100);
+      --radius: 16px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: 'Unbounded', sans-serif;
+    }
+
+    /* ─── NAVBAR ─── */
+    .navbar-custom {
+      background: rgba(10, 22, 40, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 12px 0;
+      transition: all 0.4s ease;
+    }
+    .navbar-custom.scrolled {
+      background: rgba(10, 22, 40, 0.96);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    }
+    .navbar-brand-text {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .navbar-brand-text img{
+      width: 45px;
+      height: 45px;
+      object-fit: cover;
+    }
+    .navbar-custom .nav-link {
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 8px 18px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .navbar-custom .nav-link:hover,
+    .navbar-custom .nav-link.active {
+      color: #fff;
+      background: var(--glass);
+    }
+    .navbar-custom .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 3px;
+      background: var(--gradient-accent);
+      border-radius: 2px;
+    }
+    .nav-cta {
+      background: var(--gradient-accent) !important;
+      color: #fff !important;
+      font-weight: 700 !important;
+      padding: 10px 24px !important;
+      border-radius: 10px !important;
+      transition: transform 0.2s, box-shadow 0.3s !important;
+    }
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(255, 109, 0, 0.35);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      background: var(--gradient-hero);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(13,71,161,0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse-glow 6s ease-in-out infinite;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255,109,0,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse-glow 8s ease-in-out infinite reverse;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,109,0,0.12);
+      border: 1px solid rgba(255,109,0,0.25);
+      color: var(--accent-light);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .hero-badge .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero h1 .highlight {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .btn-primary-custom {
+      background: var(--gradient-accent);
+      border: none;
+      color: #fff;
+      font-weight: 700;
+      padding: 14px 34px;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-primary-custom:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(255,109,0,0.35);
+      color: #fff;
+    }
+    .btn-outline-custom {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.15);
+      color: var(--text);
+      font-weight: 600;
+      padding: 14px 34px;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-outline-custom:hover {
+      border-color: var(--accent);
+      color: var(--accent-light);
+      background: rgba(255,109,0,0.06);
+    }
+
+    /* hero stats */
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .hero-stat .num {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .hero-stat .label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* hero visual */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .cylinder-showcase {
+      position: relative;
+      width: 100%;
+      max-width: 450px;
+      aspect-ratio: 1;
+    }
+    .cylinder-ring {
+      position: absolute;
+      inset: 0;
+      border: 2px solid rgba(13,71,161,0.25);
+      border-radius: 50%;
+      animation: spin-slow 30s linear infinite;
+    }
+    .cylinder-ring:nth-child(2) {
+      inset: 30px;
+      border-color: rgba(255,109,0,0.12);
+      animation-direction: reverse;
+      animation-duration: 25s;
+    }
+    @keyframes spin-slow {
+      to { transform: rotate(360deg); }
+    }
+
+    .cylinder-card {
+      position: absolute;
+      background: var(--dark-card);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 2;
+    }
+    .cylinder-card:hover {
+      transform: translateY(-8px) scale(1.04);
+      border-color: var(--accent);
+      box-shadow: 0 12px 40px rgba(255,109,0,0.15);
+    }
+    .cylinder-card .cyl-icon {
+      font-size: 3.5rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .cylinder-card .cyl-vol {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #fff;
+    }
+    .cylinder-card .cyl-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .cylinder-card .cyl-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.3s;
+    }
+    .cylinder-card:hover .cyl-arrow {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cyl-10 { top: 5%; left: 50%; transform: translateX(-50%); }
+    .cyl-5 { bottom: 18%; left: 2%; }
+    .cyl-2 { bottom: 18%; right: 2%; }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 100px 0; position: relative; }
+
+    .section-tag {
+      display: inline-block;
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 540px;
+      line-height: 1.7;
+    }
+
+    /* ─── PRICES ─── */
+    #prices { background: var(--surface); }
+    #prices::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,109,0,0.3), transparent);
+    }
+
+    .price-card {
+      background: var(--dark-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      text-align: center;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+    }
+    .price-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-accent);
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+    .price-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,109,0,0.2);
+      box-shadow: var(--shadow);
+    }
+    .price-card:hover::before {
+      transform: scaleX(1);
+    }
+    .price-card.featured {
+      border-color: rgba(255,109,0,0.3);
+      background: linear-gradient(180deg, rgba(255,109,0,0.06) 0%, var(--dark-card) 40%);
+    }
+    .price-card.featured::before {
+      transform: scaleX(1);
+    }
+    .price-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--gradient-accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .price-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .price-vol {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .price-type {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .price-amount {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .price-unit {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .price-features {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+    }
+    .price-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .price-features li:last-child { border: none; }
+    .price-features .check {
+      color: #4CAF50;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .price-btn {
+      display: block;
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+    .price-btn-fill,
+    .price-btn-outline {
+      background: linear-gradient(135deg, #6B7280, #9CA3AF);
+      color: #fff;
+      border: none;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    .price-btn-fill:hover,
+    .price-btn-outline:hover {
+      background: linear-gradient(135deg, #9CA3AF, #D1D5DB);
+      box-shadow: 0 6px 28px rgba(156, 163, 175, 0.45);
+      transform: translateY(-2px);
+      color: #fff;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 0 8px rgba(156, 163, 175, 0.3);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(156, 163, 175, 0.6);
+        transform: scale(1.03);
+      }
+    }
+    .price-btn-fill:hover,
+    .price-btn-outline:hover {
+      animation: none;
+    }
+
+    /* ─── PROMOS ─── */
+    #promos { background: var(--dark); }
+
+    .promo-card {
+      background: var(--dark-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all 0.4s;
+      height: 100%;
+    }
+    .promo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: rgba(255,109,0,0.15);
+    }
+    .promo-banner {
+      padding: 32px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .promo-banner.bg-1 { background: linear-gradient(135deg, #1B5E20, #2E7D32); }
+    .promo-banner.bg-2 { background: linear-gradient(135deg, #B71C1C, #D32F2F); }
+    .promo-banner.bg-3 { background: linear-gradient(135deg, #0D47A1, #1976D2); }
+    .promo-banner .promo-percent {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
+    .promo-banner .promo-off {
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+    }
+    .promo-banner::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-radius: 50%;
+    }
+    .promo-body {
+      padding: 24px;
+    }
+    .promo-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .promo-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .promo-deadline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(255,109,0,0.08);
+      padding: 6px 14px;
+      border-radius: 50px;
+    }
+
+    /* ─── CONTACTS ─── */
+    #contacts { background: var(--surface); }
+    #contacts::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(13,71,161,0.4), transparent);
+    }
+
+    .contact-card {
+      background: var(--dark-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 32px;
+      text-align: center;
+      transition: all 0.3s;
+      height: 100%;
+    }
+    .contact-card:hover {
+      border-color: rgba(255,109,0,0.15);
+      transform: translateY(-3px);
+    }
+    .contact-icon {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .contact-label {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .contact-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .contact-value a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .contact-value a:hover {
+      color: var(--accent-light);
+    }
+
+    .contact-form {
+      background: var(--dark-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 40px;
+    }
+    .form-floating > .form-control {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      border-radius: 10px;
+      height: 56px;
+    }
+    .form-floating > textarea.form-control {
+      height: 120px;
+    }
+    .form-floating > label {
+      color: var(--text-muted);
+    }
+    .form-floating > .form-control:focus {
+      background: rgba(255,255,255,0.06);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255,109,0,0.1);
+      color: #fff;
+    }
+    .form-floating > .form-control:focus ~ label {
+      color: var(--accent-light);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 40px 0 24px;
+    }
+    .footer-brand {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .footer-text {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--accent-light); }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── SCROLL-TOP BUTTON ─── */
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-accent);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 1.4rem;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(255,109,0,0.3);
+    }
+    .scroll-top.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .scroll-top:hover {
+      transform: translateY(-3px);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 991px) {
+      .hero { min-height: auto; padding: 120px 0 60px; }
+      .cylinder-showcase { max-width: 100%; margin: 40px auto 0; }
+      .hero-stats { gap: 24px; }
+      .cyl-5 { left: 0; }
+      .cyl-2 { right: 0; }
+    }
+    @media (max-width: 575px) {
+      .hero-stats { flex-direction: column; gap: 16px; }
+      .cylinder-card { padding: 14px; }
+      .cylinder-card .cyl-icon { font-size: 2.5rem; }
+      .cylinder-card .cyl-vol { font-size: 1rem; }
+    }
+
+    /* toast */
+    .toast-success {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #2E7D32;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.4s;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    }
+    .toast-success.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* ─── NAVBAR TOGGLER ─── */
+    .navbar-toggler {
+      border-color: rgba(255,255,255,0.15);
+    }
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* ─── GRID PATTERN ─── */
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar navbar-expand-lg navbar-custom fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="#home">
+        <span class="navbar-brand-text">⛽ Азот Бар <img src="images/shar.png" alt=""></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+          <li class="nav-item"><a class="nav-link active" href="#home">Главная</a></li>
+          <li class="nav-item"><a class="nav-link" href="#prices">Расценки</a></li>
+          <li class="nav-item"><a class="nav-link" href="#promos">Акции</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contacts">Контакты</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="nav-link nav-cta" href="tel:+998901234567">📞 Позвонить</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="home">
+    <div class="grid-bg"></div>
+    <div class="container position-relative" style="z-index:2">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="hero-badge">
+            <span class="dot"></span>
+            30 минут доставку сделать
+          </div>
+          <h1>
+            <br>ПИЩЕВАЯ ЗАКИСЬ АЗОТА 24/7<br><span class="highlight" style="font-size: 30px;">Доставка баллонов в Москве и области.</span>
+          </h1>
+          <p class="hero-sub">
+            Проверка и контроль качества на каждом этапе. Всегда в наличии 2, 5 и 10л баллоны.
+          </p>
+          <div class="hero-buttons">
+            <a href="#prices" class="btn-primary-custom">Смотреть расценки</a>
+            <a href="#contacts" class="btn-outline-custom">Связаться с нами</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <div class="num" data-count="1000">0</div>
+              <div class="label">Довольных клиентов</div>
+            </div>
+            <div class="hero-stat">
+              <div class="num" data-count="7">0</div>
+              <div class="label">Лет на рынке</div>
+            </div>
+            <div class="hero-stat">
+              <div class="num" data-count="60">0</div>
+              <div class="label">Мин. доставка</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 mt-5 mt-lg-0">
+          <div class="hero-visual">
+            <div class="cylinder-showcase">
+              <div class="cylinder-ring"></div>
+              <div class="cylinder-ring"></div>
+
+              <a href="#prices" class="cylinder-card cyl-10">
+                <span class="cyl-icon">🔵</span>
+                <span class="cyl-vol">10 л</span>
+                <span class="cyl-label">MAX</span>
+                <span class="cyl-arrow">Подробнее →</span>
+              </a>
+              <a href="#prices" class="cylinder-card cyl-5" style="text-decoration:none">
+                <span class="cyl-icon">🟢</span>
+                <span class="cyl-vol">5 л</span>
+                <span class="cyl-label">XИТ</span>
+                <span class="cyl-arrow">Подробнее →</span>
+              </a>
+              <a href="#prices" class="cylinder-card cyl-2" style="text-decoration:none">
+                <span class="cyl-icon">🟠</span>
+                <span class="cyl-vol">2 л</span>
+                <span class="cyl-label">КОМБО</span>
+                <span class="cyl-arrow">Подробнее →</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PRICES ═══ -->
+  <section id="prices">
+    <div class="grid-bg"></div>
+    <div class="container position-relative" style="z-index:2">
+      <div class="text-center mb-5 fade-up">
+        <span class="section-tag">Расценки</span>
+        <h2 class="section-title">Выберите свой баллон</h2>
+        <p class="section-desc mx-auto">Прозрачные цены. Доставка включена в стоимость баллона. 
+Взвешиваем баллон при Вас. Наличие сертификата качества ☝️
+Есть возможность для предзаказа и самовывоза.</p>
+      </div>
+
+      <div class="row g-4">
+        <!-- 2L -->
+        <div class="col-md-4 fade-up" style="transition-delay: 0.1s">
+          <div class="price-card">
+            <span class="price-icon">🟠</span>
+            <div class="price-vol">2 литра</div>
+            <div class="price-type">Комбо</div>
+            <div class="price-amount">5 000/ 4 000</div>
+            <div class="price-unit">Продажа/замена</div>
+            <ul class="price-features">
+              <li><span class="check">✓</span> Компактный и укомплектованный</li>
+              <li><span class="check">✓</span>  3 400 p по Акции 🔥</li>
+              <li><span class="check">✓</span> +Большие Шары 5шт</li>
+              <li><span class="check">✓</span> Бесплатная доставка</li>
+            </ul>
+            <a href="#contacts" class="price-btn price-btn-outline">Заказать</a>
+          </div>
+        </div>
+        <!-- 5L -->
+        <div class="col-md-4 fade-up" style="transition-delay: 0.2s">
+          <div class="price-card featured">
+            <span class="price-badge">Хит продаж</span>
+            <span class="price-icon">🟢</span>
+            <div class="price-vol">5 литров</div>
+            <div class="price-type">ХИТ</div>
+            <div class="price-amount" style="color: #9CFC88;">8 000/ 6 000</div>
+            <div class="price-unit">Продажа/замена</div>
+            <ul class="price-features">
+              <li><span class="check">✓</span> Оптимальный объём для неболшой компании</li>
+              <li><span class="check">✓</span> 5 100p по Акции 🔥</li>
+              <li><span class="check">✓</span> Хит продаж</li>
+              <li><span class="check">✓</span> Бесплатная доставка</li>
+            </ul>
+            <a href="#contacts" class="price-btn price-btn-fill">Заказать</a>
+          </div>
+        </div>
+        <!-- 10L -->
+        <div class="col-md-4 fade-up" style="transition-delay: 0.3s">
+          <div class="price-card">
+            <span class="price-icon">🔵</span>
+            <div class="price-vol">10 литров</div>
+            <div class="price-type">МАХ</div>
+            <div class="price-amount">13 000/ 8 000</div>
+            <div class="price-unit">Продажа/замена</div>
+            <ul class="price-features">
+              <li><span class="check">✓</span> Максимальный объём</li>
+              <li><span class="check">✓</span> Для вечеринок и клубов</li>
+              <li><span class="check">✓</span> 6 800 p по Акции 🔥</li>
+              <li><span class="check">✓</span> Бесплатная доставка</li>
+            </ul>
+            <a href="#contacts" class="price-btn price-btn-outline">Заказать</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4 fade-up">
+        <small class="" style="font-size: 30px; color: var(--accent)">Выкупаем пустые баллоны дорого. Выезд бесплатный 🔥</small><br>
+        <small class="" style="font-size: 30px; color: var(--accent)">Большие шары не входят в стоимость 5 и 10л баллонов. Оплачиваются отдельно.</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PROMOS ═══ -->
+  <section id="promos">
+    <div class="grid-bg"></div>
+    <div class="container position-relative" style="z-index:2">
+      <div class="text-center mb-5 fade-up">
+        <span class="section-tag">Акции</span>
+        <h2 class="section-title">Выгодные предложения</h2>
+        <p class="section-desc mx-auto">Следите за нашими акциями и экономьте на заказах наших баллонов.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4 fade-up" style="transition-delay: 0.1s">
+          <div class="promo-card">
+            <div class="promo-banner bg-1">
+              <div class="promo-percent">-15%</div>
+              <div class="promo-off">на первый заказ</div>
+            </div>
+            <div class="promo-body">
+              <div class="promo-title">Добро пожаловать!</div>
+              <p class="promo-text">Скидка 15% на первый заказ для новых клиентов. Действует на все виды баллонов.</p>
+              <span class="promo-deadline">⏰ Без ограничения срока</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 fade-up" style="transition-delay: 0.2s">
+          <div class="promo-card">
+            <div class="promo-banner bg-2">
+              <div class="promo-percent">3+1</div>
+              <div class="promo-off">баллон в подарок</div>
+            </div>
+            <div class="promo-body">
+              <div class="promo-title">Оптовая выгода</div>
+              <p class="promo-text">Закажите 3 баллона любого объёма и получите 4-й баллон (2 л) бесплатно!</p>
+              <span class="promo-deadline">⏰ До конца месяца</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 fade-up" style="transition-delay: 0.3s">
+          <div class="promo-card">
+            <div class="promo-banner bg-3">
+              <div class="promo-percent">-10%</div>
+              <div class="promo-off">постоянным клиентам</div>
+            </div>
+            <div class="promo-body">
+              <div class="promo-title">Программа лояльности</div>
+              <p class="promo-text">После 5-го заказа вы автоматически получаете статус постоянного клиента со скидкой 10%.</p>
+              <span class="promo-deadline">⏰ Постоянная акция</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACTS ═══ -->
+  <section id="contacts">
+    <div class="grid-bg"></div>
+    <div class="container position-relative" style="z-index:2">
+
+      <div class="row d-md-flex d-none justify-content-center fade-up">
+        <div class="col-lg-7">
+          <div class="contact-form " >
+            <h4 class="mb-4" style="font-weight:700">Оставить заявку</h4>
+            <form id="contactForm" action="https://formsubmit.co/sadikxolmatov98@gmail.com" method="POST">
+              <input type="hidden" name="_captcha" value="false">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_subject" value="Новая заявка — Азот Бар">
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="fname" name="name" placeholder="Имя" required>
+                    <label for="fname">Ваше имя</label>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-floating">
+                    <input type="tel" class="form-control" id="fphone" name="phone" placeholder="Телефон" required>
+                    <label for="fphone">Телефон</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating">
+                    <textarea class="form-control" id="fmsg" name="message" placeholder="Сообщение" style="height:120px"></textarea>
+                    <label for="fmsg">Сообщение (адрес и пожелания)</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn-primary-custom w-100" style="border:none">
+                    Отправить заявку
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mb-5 fade-up">
+        <span class="section-tag">Контакты</span>
+        <h2 class="section-title">Свяжитесь с нами</h2>
+        <p class="section-desc mx-auto">Мы всегда на связи. Позвоните, напишите или оставьте заявку — мы перезвоним в течение 15 минут.</p>
+      </div>
+
+      <div class="row g-4 mb-5">
+        
+        <div class="col-sm-6 col-lg-3 fade-up" style="transition-delay: 0.15s">
+          <div class="contact-card">
+            <span class="contact-icon">💬</span>
+            <div class="contact-label">Telegram</div>
+            <div class="contact-value"><a href="https://t.me/gazsnab" target="_blank">@gazsnab</a></div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3 fade-up" style="transition-delay: 0.1s">
+          <div class="contact-card">
+            <span class="contact-icon">📞</span>
+            <div class="contact-label">Телефон</div>
+            <div class="contact-value"><a href="tel:+998901234567">+998 90 123 45 67</a></div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3 fade-up d-md-none d-sm-block" style="transition-delay: 0.05s">
+          <div class="contact-form ">
+            <h4 class="mb-4" style="font-weight:700">Оставить заявку</h4>
+            <form id="contactForm" action="https://formsubmit.co/sadikxolmatov98@gmail.com" method="POST">
+              <input type="hidden" name="_captcha" value="false">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_subject" value="Новая заявка — Азот Бар">
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="fname" name="name" placeholder="Имя" required>
+                    <label for="fname">Ваше имя</label>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-floating">
+                    <input type="tel" class="form-control" id="fphone" name="phone" placeholder="Телефон" required>
+                    <label for="fphone">Телефон</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating">
+                    <textarea class="form-control" id="fmsg" name="message" placeholder="Сообщение" style="height:120px"></textarea>
+                    <label for="fmsg">Сообщение (адрес и пожелания)</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn-primary-custom w-100" style="border:none">
+                    Отправить заявку
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3 fade-up" style="transition-delay: 0.2s">
+          <div class="contact-card">
+            <span class="contact-icon">📍</span>
+            <div class="contact-label">Адрес</div>
+            <div class="contact-value">г. Москва Проспект Мира 222</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3 fade-up" style="transition-delay: 0.25s">
+          <div class="contact-card">
+            <span class="contact-icon">🕐</span>
+            <div class="contact-label">Режим работы</div>
+            <div class="contact-value">Пн-Вс: 24 часа </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <span class="footer-brand">⛽ Азот Бар</span>
+          <p class="footer-text mt-2 mb-0">18+<br>
+
+Закись азота N₂O, Некоторые называют Веселящий Газ 🎈
+Это бесцветный негорючий газ с приятным сладковатым запахом и привкусом, используется в пищевой промышленности как технологический компонент и предназначена для законного пищевого и промышленного применения. Использование допускается только по назначению и в соответствии с инструкциями производителя (подробная информация на оф. сайте Череповецкий газ)  продажа осуществляется с действующим правилом законодательства РФ.</p>
+        </div>
+        <div class="col-md-4 text-md-center mb-3 mb-md-0">
+          <div class="footer-links d-flex gap-3 justify-content-md-center">
+            <a href="#home">Главная</a>
+            <a href="#prices">Расценки</a>
+            <a href="#promos">Акции</a>
+            <a href="#contacts">Контакты</a>
+          </div>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <p class="footer-text mb-0">© 2026 Азот Бар. Все права защищены.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to top -->
+  <button class="scroll-top" id="scrollTopBtn" title="Наверх">↑</button>
+
+  <!-- Toast -->
+  <div class="toast-success" id="toast">✓ Заявка отправлена! Мы перезвоним.</div>
+
+  <!-- ═══ SCRIPTS ═══ -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+  $(function() {
+
+    // ─── Navbar scroll effect ───
+    $(window).on('scroll', function() {
+      const scrolled = $(this).scrollTop() > 60;
+      $('#mainNav').toggleClass('scrolled', scrolled);
+      $('#scrollTopBtn').toggleClass('show', $(this).scrollTop() > 400);
+    });
+
+    // ─── Active nav link on scroll ───
+    const sections = $('section');
+    $(window).on('scroll', function() {
+      let cur = '';
+      sections.each(function() {
+        const top = $(this).offset().top - 120;
+        if ($(window).scrollTop() >= top) {
+          cur = $(this).attr('id');
+        }
+      });
+      $('.nav-link').removeClass('active');
+      $(`.nav-link[href="#${cur}"]`).addClass('active');
+    });
+
+    // ─── Smooth scroll for nav links ───
+    $('a[href^="#"]').on('click', function(e) {
+      e.preventDefault();
+      const target = $($(this).attr('href'));
+      if (target.length) {
+        $('html, body').animate({ scrollTop: target.offset().top - 75 }, 600);
+        // Close mobile menu
+        const collapse = bootstrap.Collapse.getInstance($('#navMenu')[0]);
+        if (collapse) collapse.hide();
+      }
+    });
+
+    // ─── Scroll to top ───
+    $('#scrollTopBtn').on('click', function() {
+      $('html, body').animate({ scrollTop: 0 }, 500);
+    });
+
+    // ─── Counter animation ───
+    let counted = false;
+    function animateCounters() {
+      if (counted) return;
+      const statsInView = $(window).scrollTop() + $(window).height() > $('.hero-stats').offset().top;
+      if (statsInView) {
+        counted = true;
+        $('.hero-stat .num').each(function() {
+          const $el = $(this);
+          const target = parseInt($el.data('count'));
+          $({ val: 0 }).animate({ val: target }, {
+            duration: 1800,
+            easing: 'swing',
+            step: function() {
+              $el.text(Math.floor(this.val).toLocaleString() + (target >= 1000 ? '+' : ''));
+            },
+            complete: function() {
+              $el.text(target.toLocaleString() + (target >= 1000 ? '+' : ''));
+            }
+          });
+        });
+      }
+    }
+    $(window).on('scroll', animateCounters);
+    animateCounters();
+
+    // ─── Scroll reveal (fade-up) ───
+    function revealFadeUp() {
+      $('.fade-up').each(function() {
+        const top = $(this).offset().top;
+        const reveal = $(window).scrollTop() + $(window).height() - 80;
+        if (top < reveal) {
+          $(this).addClass('visible');
+        }
+      });
+    }
+    $(window).on('scroll', revealFadeUp);
+    revealFadeUp();
+
+    // ─── Contact form (FormSubmit.co → email) ───
+    $('#contactForm').on('submit', function(e) {
+      e.preventDefault();
+      const form = this;
+      const $btn = $(form).find('button[type="submit"]');
+      const btnText = $btn.html();
+      $btn.html('Отправка...').prop('disabled', true);
+
+      fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: form.name.value,
+          phone: form.phone.value,
+          message: form.message.value,
+          _subject: 'Новая заявка — Азот Бар',
+          _template: 'table',
+          _captcha: 'false'
+        })
+      })
+      .then(res => {
+        if (res.ok) {
+          const $toast = $('#toast');
+          $toast.addClass('show');
+          setTimeout(() => $toast.removeClass('show'), 3500);
+          form.reset();
+        } else {
+          alert('Ошибка отправки. Попробуйте позже.');
+        }
+      })
+      .catch(() => alert('Ошибка сети. Проверьте интернет.'))
+      .finally(() => $btn.html(btnText).prop('disabled', false));
+    });
+
+  });
+  </script>
+</body>
+</html>
